@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-app: #07090c;
+    --bg-panel: #0d1117;
+    --bg-panel-2: #10161d;
+    --line-soft: #1c232d;
+    --line-strong: #28313d;
+    --text-primary: #e6ebf3;
+    --text-secondary: #95a0b0;
+    --accent: #4d82cf;
+    --accent-soft: #8fb4e6;
+    --danger: #d97979;
+    --status-pass-text: #7ee7b3;
+    --status-pass-border: #2e8b65;
+    --status-pass-bg: rgba(46, 139, 101, 0.2);
+    --status-pass-glow: rgba(46, 139, 101, 0.45);
+    --status-fail-text: #f9a8a8;
+    --status-fail-border: #a54141;
+    --status-fail-bg: rgba(165, 65, 65, 0.18);
+    --status-fail-glow: rgba(165, 65, 65, 0.42);
+  }
+
+  * {
+    border-color: var(--line-soft);
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    font-family: "Manrope", sans-serif;
+    background:
+      radial-gradient(1200px 500px at 80% -5%, rgba(77, 130, 207, 0.08), transparent 60%),
+      radial-gradient(900px 400px at 0% 120%, rgba(77, 130, 207, 0.05), transparent 60%),
+      var(--bg-app);
+    color: var(--text-primary);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
