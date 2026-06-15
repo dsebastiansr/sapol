@@ -122,11 +122,11 @@ function extractPairsFromCurrentGrades(grades: GradeRecord[]) {
   return Array.from(uniquePairs.values());
 }
 
-function parseEntryYear(term: unknown) {
-  if (typeof term !== "string") {
+function parseEntranceYearFromStudentCode(studentCode: string | undefined): number | null {
+  if (!studentCode) {
     return null;
   }
-  const match = term.match(/(19|20)\d{2}/);
+  const match = studentCode.match(/^\d{4}/);
   if (!match) {
     return null;
   }
@@ -138,7 +138,13 @@ async function detectLatestGrades(studentCode: string) {
   const currentYear = new Date().getFullYear();
   const terms = ["2", "1", "0"];
 
-  for (let year = currentYear; year >= currentYear - SEARCH_WINDOW_YEARS; year -= 1) {
+  const entranceYear = parseEntranceYearFromStudentCode(studentCode);
+  const lowerBound =
+    entranceYear && entranceYear <= currentYear
+      ? entranceYear
+      : currentYear - SEARCH_WINDOW_YEARS;
+
+  for (let year = currentYear; year >= lowerBound; year -= 1) {
     for (const term of terms) {
       try {
         const grades = await getGrades(studentCode, year.toString(), term);
@@ -187,8 +193,8 @@ function StudentDashboardContainer() {
   const hasSchedule = scheduleRows.length > 0;
   const yearOptions = useMemo(() => {
     const currentYear = new Date().getFullYear();
-    const entryYear = parseEntryYear(dashboardData?.careerInfo?.terminoingreso);
-    const lowerBound = entryYear && entryYear <= currentYear ? entryYear : currentYear;
+    const entranceYear = parseEntranceYearFromStudentCode(selectedStudentCode);
+    const lowerBound = entranceYear && entranceYear <= currentYear ? entranceYear : currentYear;
 
     const years: string[] = [];
     for (let year = currentYear; year >= lowerBound; year -= 1) {
@@ -200,7 +206,7 @@ function StudentDashboardContainer() {
     }
 
     return years.sort((a, b) => Number(b) - Number(a));
-  }, [dashboardData?.careerInfo?.terminoingreso, selectedYear]);
+  }, [selectedStudentCode, selectedYear]);
 
   const loadPastGrades = async (studentCode: string, year: string, term: string) => {
     setIsLoadingPastGrades(true);
