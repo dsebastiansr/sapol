@@ -71,3 +71,7 @@ export async function getSubjectSchedule(subjectCode: string, course: string) {
     course,
   });
 }
+
+export async function getActualTerm() {
+  return fetchJson<{ nombre?: string; anio: string; termino: string }>("/api/actual-term", {});
+}

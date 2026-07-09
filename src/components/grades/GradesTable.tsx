@@ -7,10 +7,10 @@ interface GradesTableProps {
 
 function getStatusClasses(status: string | undefined) {
   if (status === "AP") {
-    return "border border-[var(--status-pass-border)] bg-[var(--status-pass-bg)] text-[var(--status-pass-text)] shadow-[0_0_10px_var(--status-pass-glow)]";
+    return "border border-[var(--status-pass-border)] bg-[var(--status-pass-bg)] text-[var(--status-pass-text)]";
   }
   if (status === "RP") {
-    return "border border-[var(--status-fail-border)] bg-[var(--status-fail-bg)] text-[var(--status-fail-text)] shadow-[0_0_10px_var(--status-fail-glow)]";
+    return "border border-[var(--status-fail-border)] bg-[var(--status-fail-bg)] text-[var(--status-fail-text)]";
   }
   return "border border-[var(--line-strong)] bg-[var(--bg-panel-2)] text-[var(--text-secondary)]";
 }
@@ -26,7 +26,7 @@ function normalizeStatus(status: string | undefined) {
 
 function GradesTable({ grades }: GradesTableProps) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-[var(--line-soft)]">
+    <div className="overflow-x-auto rounded-xl border border-[var(--line-soft)] bg-[var(--bg-panel)]">
       <table className="min-w-full text-sm">
         <thead className="bg-[var(--bg-panel-2)]">
           <tr>

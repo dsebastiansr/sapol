@@ -52,7 +52,7 @@ function PastGradesCard({
           </select>
           <button
             type="button"
-            className="rounded-lg border border-[var(--line-strong)] px-3 py-1.5 text-sm font-medium text-[var(--text-primary)] transition hover:border-[var(--accent)] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-[var(--line-strong)] bg-[var(--bg-panel)] px-3 py-1.5 text-sm font-medium text-[var(--text-primary)] transition hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
             onClick={onLoadPast}
             disabled={isLoadingPast}
           >

@@ -5,6 +5,7 @@ import SectionCard from "./SectionCard";
 interface StudentOverviewProps {
   studentCode: string;
   data: StudentDashboardData | null;
+  validatedEntryTerm?: string;
 }
 
 function formatValue(value: unknown) {
@@ -24,10 +25,10 @@ function formatValue(value: unknown) {
   return String(value);
 }
 
-function StudentOverview({ studentCode, data }: StudentOverviewProps) {
+function StudentOverview({ studentCode, data, validatedEntryTerm }: StudentOverviewProps) {
   if (!data) {
     return (
-      <SectionCard title="Información General">
+      <SectionCard title="Info Estudiante" className="h-full" bodyClassName="flex h-full flex-col">
         <p className="text-sm text-[var(--text-secondary)]">
           Selecciona un estudiante para mostrar su perfil académico.
         </p>
@@ -40,100 +41,39 @@ function StudentOverview({ studentCode, data }: StudentOverviewProps) {
       ? `${data.generalInfo.nombres} ${data.generalInfo.apellidos}`
       : data.info?.nombrecompleto ?? "No disponible";
 
+  const summaryItems = [
+    { label: "Matrícula", value: studentCode },
+    { label: "Identificación", value: data.generalInfo?.identificacion ?? data.info?.identificacion },
+    { label: "Usuario", value: data.generalInfo?.usuario },
+    { label: "Nacimiento", value: formatDateDDMMYYYY(data.generalInfo?.fechanacimiento) },
+    { label: "Facultad", value: data.generalInfo?.facultad },
+    { label: "Carrera", value: data.generalInfo?.carrera ?? data.meshInfo?.nombrecarrera },
+    { label: "Ingreso", value: validatedEntryTerm ?? data.careerInfo?.terminoingreso },
+    { label: "Promedio", value: data.generalInfo?.promediogeneral ?? data.info?.promediogeneral, accent: true },
+  ];
+
   return (
-    <SectionCard title="Información General" subtitle={`Matrícula: ${studentCode}`}>
-      <div className="flex flex-wrap gap-2">
-        <div className="rounded-lg border border-[var(--line-soft)] bg-[var(--bg-panel-2)] px-3 py-2">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Estudiante
-          </p>
-          <p className="text-sm font-medium text-[var(--text-primary)]">
-            {formatValue(displayName)}
-          </p>
-        </div>
-        <div className="rounded-lg border border-[var(--line-soft)] bg-[var(--bg-panel-2)] px-3 py-2">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">Correo</p>
-          <p className="text-sm font-medium text-[var(--text-primary)]">
-            {formatValue(data.generalInfo?.correo ?? data.info?.email)}
-          </p>
-        </div>
-        <div className="rounded-lg border border-[var(--line-soft)] bg-[var(--bg-panel-2)] px-3 py-2">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">Carrera</p>
-          <p className="text-sm font-medium text-[var(--text-primary)]">
-            {formatValue(data.generalInfo?.carrera ?? data.meshInfo?.nombrecarrera)}
-          </p>
-        </div>
-        <div className="rounded-lg border border-[var(--line-soft)] bg-[var(--bg-panel-2)] px-3 py-2">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Promedio
-          </p>
-          <p className="text-sm font-medium text-[var(--accent-soft)]">
-            {formatValue(data.generalInfo?.promediogeneral ?? data.info?.promediogeneral)}
-          </p>
-        </div>
+    <SectionCard title="Info Estudiante" className="h-full" bodyClassName="flex h-full flex-col gap-4">
+      <div>
+        <h3 className="text-2xl font-semibold leading-tight text-[var(--text-primary)]">
+          {formatValue(displayName)}
+        </h3>
+        <p className="mt-0.5 text-sm text-[var(--text-secondary)]">
+          {formatValue(data.generalInfo?.correo ?? data.info?.email)}
+        </p>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-3 rounded-xl border border-[var(--line-soft)] bg-[var(--bg-panel-2)] p-3">
-        <div className="min-w-[160px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Identificación
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.generalInfo?.identificacion ?? data.info?.identificacion)}
-          </p>
-        </div>
-        <div className="min-w-[120px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">Usuario</p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.generalInfo?.usuario)}
-          </p>
-        </div>
-        <div className="min-w-[220px] flex-[2]">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">Facultad</p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.generalInfo?.facultad)}
-          </p>
-        </div>
-        <div className="min-w-[140px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Nacimiento
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatDateDDMMYYYY(data.generalInfo?.fechanacimiento)}
-          </p>
-        </div>
-        <div className="min-w-[120px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Ingreso
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.careerInfo?.terminoingreso)}
-          </p>
-        </div>
-        <div className="min-w-[110px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Tomadas
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.careerInfo?.materiastomadas)}
-          </p>
-        </div>
-        <div className="min-w-[110px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Aprobadas
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.careerInfo?.materiasaprobadas)}
-          </p>
-        </div>
-        <div className="min-w-[110px] flex-1">
-          <p className="text-xs uppercase tracking-wide text-[var(--text-secondary)]">
-            Créditos mín.
-          </p>
-          <p className="text-sm text-[var(--text-primary)]">
-            {formatValue(data.careerInfo?.creditosmin)}
-          </p>
-        </div>
+      <div className="grid gap-10 pt-4 sm:grid-cols-4">
+        {summaryItems.map((item) => (
+          <div key={item.label}>
+            <p className="text-[11px] uppercase tracking-wider text-[var(--text-secondary)]">
+              {item.label}
+            </p>
+            <p className={`mt-1 text-sm font-medium ${item.accent ? 'text-(--accent-soft)' : 'text-white'}`}>
+              {formatValue(item.value)}
+            </p>
+          </div>
+        ))}
       </div>
     </SectionCard>
   );

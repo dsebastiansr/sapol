@@ -17,7 +17,7 @@ function SectionCard({
   children,
 }: SectionCardProps) {
   const sectionClassName = [
-    "overflow-hidden rounded-2xl border border-[var(--line-strong)] bg-[var(--bg-panel)]",
+    "overflow-hidden rounded-xl border border-[var(--line-strong)] bg-[var(--bg-panel)]",
     className ?? "",
   ]
     .join(" ")
@@ -28,11 +28,11 @@ function SectionCard({
     <section className={sectionClassName}>
       <header className="flex items-start justify-between gap-4 border-b border-[var(--line-soft)] bg-[var(--bg-panel-2)] px-5 py-4">
         <div>
-          <h2 className="text-base font-semibold tracking-wide text-[var(--text-primary)]">
+          <h2 className="text-base font-semibold tracking-tight text-[var(--text-primary)]">
             {title}
           </h2>
           {subtitle && (
-            <p className="mt-1 text-sm font-medium text-[var(--text-secondary)]">{subtitle}</p>
+            <p className="mt-1 text-sm leading-5 text-[var(--text-secondary)]">{subtitle}</p>
           )}
         </div>
         {rightSlot}
